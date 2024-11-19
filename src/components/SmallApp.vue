@@ -6,7 +6,7 @@ const props = defineProps<{
   message?: string;
   count?: number;
 }>();
-
+const model = defineModel()
 // Initialize a reactive local count with a default value
 const count = ref(props.count ?? 0);
 
@@ -21,7 +21,7 @@ const incrementCount = () => {
     <!-- Button to increment the count -->
     <button @click="incrementCount">Increment Count: {{ count }}</button>
     <div class="ch">
-      <h1>I am the child component</h1>
+      <h1>Write a message :<input v-model="model"></h1>
     </div>
     <p>Message: {{ message ?? 'No message provided' }}</p> 
     <p>Count: {{ count }}</p>
