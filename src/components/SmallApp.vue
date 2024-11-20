@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 
 // Define props with optional values
 const props = defineProps<{
@@ -12,14 +12,35 @@ const count = ref(props.count ?? 0);
 
 // Increment local count
 const incrementCount = () => {
-  count.value++;
+  try {
+    count.value++;
+    console.log('Button clicked. New count:', count.value); // Log message to the console
+  } catch (error) {
+    console.error('Error:', error); // Catch and log any error
+  }
 };
+
+// Set up button click event when the component is mounted
+onMounted(() => {
+  const button = document.querySelector('button');
+  if (button) {
+    button.addEventListener('click', incrementCount);
+  }
+});
+
+// Clean up the event listener when the component is unmounted
+onUnmounted(() => {
+  const button = document.querySelector('button');
+  if (button) {
+    button.removeEventListener('click', incrementCount);
+  }
+});
 </script>
 
 <template>
   <div>
-    <!-- Button to increment the count -->
-    <button @click="incrementCount">Increment Count: {{ count }}</button>
+    <!-- Button to increment the count and log message -->
+    <button>Increment Count: {{ count }}</button> 
     <div class="ch">
       <h1>Write a message :<input v-model="model"></h1>
     </div>
